@@ -10,6 +10,9 @@ var config = {
 			pokemon: {
 				error: 'Hi, that call for a pokemon\'s data doesn\'t look right. Try following this format \`/poke pokemon [Name or ID of Pokemon]\`.'
 			},
+			ability: {
+				error: 'Hi, that call for a pokemon\'s data doesn\'t look right. Try following this format \`/poke ability [Name or ID of ability]\`.'
+            },
 			downtime: 'Oh no! It looks like Pokebot is unable to retrieve the data from the backend service. Try again at a later time.'
         }
 	}

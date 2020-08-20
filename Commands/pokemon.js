@@ -46,15 +46,12 @@ module.exports = {
                 });
 
                 response.on('end', () => {
-                    pokemonResponse = JSON.parse(pokemonResponse);
-
-                    if (!pokemonResponse.name) {
-                        message.channel.send(`${configs.pokemon.api.downtime}`);
-                    }
-
                     message.channel.send(`Here's what I've found about this Pokemon:\n`);
-                    message.channel.send(toPokemonString(pokemonResponse));
+                    message.channel.send(toPokemonString(JSON.parse(pokemonResponse)));
                 });
+            }).on('error', err => {
+                console.log(`Error: ${err}`);
+                message.channel.send(`${configs.pokemon.api.downtime}`);
             });
         } catch (e) {
             message.channel.send(configs.pokemon.messages.error);
