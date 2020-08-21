@@ -1,5 +1,5 @@
 const configs = require('../config');
-const https = require('https');
+const commandExecuter = require('./main.js');
 const stringHelper = require('../Helpers/stringHelper.js');
 
 function toPokemonString(pokemonResponse) {
@@ -12,8 +12,8 @@ function toPokemonString(pokemonResponse) {
     result += `> **Types**: ${pokemonResponse.types.map(x => x.type.name).join(', ')}\n`;
     result += `> **Species**: ${pokemonResponse.species.name}\n`;
     result += `> **Species**: ${pokemonResponse.species.name}\n`;
-    result += `> **Height**: ${pokemonResponse.height} Metres\n`;
-    result += `> **Weight**: ${pokemonResponse.weight} Kg\n`;
+    result += `> **Height**: ${pokemonResponse.height} metres\n`;
+    result += `> **Weight**: ${pokemonResponse.weight} kg\n`;
 
     var stats = pokemonResponse.stats.map(x => ({
         name: x.stat.name,
@@ -32,29 +32,6 @@ module.exports = {
     name: 'pokemon',
     description: 'Responsible for managing commands directed towards the /pokemon call',
     execute(message, args) {
-        try {
-            if (args.length != 1) {
-                message.channel.send(`${configs.pokemon.api.pokemon.error}`);
-                return;
-            }
-
-            https.get(`${configs.pokemon.api.base_url}/pokemon/${args[0]}`, response => {
-                let pokemonResponse = '';
-
-                response.on('data', chunk => {
-                    pokemonResponse += chunk;
-                });
-
-                response.on('end', () => {
-                    message.channel.send(`Here's what I've found about this Pokemon:\n`);
-                    message.channel.send(toPokemonString(JSON.parse(pokemonResponse)));
-                });
-            }).on('error', err => {
-                console.log(`Error: ${err}`);
-                message.channel.send(`${configs.pokemon.api.downtime}`);
-            });
-        } catch (e) {
-            message.channel.send(configs.pokemon.messages.error);
-        }
+        commandExecuter.execute(message, args, 'pokemon', configs.pokemon.api.pokemon.error, toPokemonString);
     }
 };
