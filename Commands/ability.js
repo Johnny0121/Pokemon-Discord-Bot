@@ -1,5 +1,5 @@
 const configs = require('../config');
-const https = require('https');
+const commandExecuter = require('./main.js');
 
 function toAbilityString(abilityResponse) {
     var result = `> **ID**: ${abilityResponse.id}\n`;
@@ -17,28 +17,6 @@ module.exports = {
     name: 'ability',
     description: 'Responsible for managing commands directed towards the /pokemon ability',
     execute: function (message, args) {
-        try {
-            if (args.length != 1) {
-                return message.channel.send(`${configs.pokemon.api.ability.error}`);
-            }
-
-            https.get(`${configs.pokemon.api.base_url}/ability/${args[0]}`, response => {
-                let abilityResponse = '';
-
-                response.on('data', chunk => {
-                    abilityResponse += chunk;
-                });
-
-                response.on('end', () => {
-                    message.channel.send(`Here's what I've found about this ability:\n`);
-                    message.channel.send(toAbilityString(JSON.parse(abilityResponse)));
-                });
-            }).on('error', err => {
-                console.log(`Error: ${err}`);
-                message.channel.send(`${configs.pokemon.api.downtime}`);
-            });
-        } catch (e) {
-            message.channel.send(configs.pokemon.messages.error);
-        }
+        commandExecuter.execute(message, args, 'ability', configs.pokemon.api.ability.error, toAbilityString);
     }
 };
