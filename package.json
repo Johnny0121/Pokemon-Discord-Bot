@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Johnny0121/Pokemon-Discord-Bot/issues"
   },
-  "homepage": "https://github.com/Johnny0121/Pokemon-Discord-Bot#readme"
+  "homepage": "https://github.com/Johnny0121/Pokemon-Discord-Bot#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0"
+  }
 }
